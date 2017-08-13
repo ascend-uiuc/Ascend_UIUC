@@ -27,33 +27,6 @@
             firebase.initializeApp(config);
         </script>
 
-    </head>
-    <body ng-app="myApp" ng-controller="IndexCtrl">
-        <!--<ul class="menu">-->
-        <!--<li><a href="#!/view1">view1</a></li>-->
-        <!--<li><a href="#!/view2">view2</a></li>-->
-        <!--</ul>-->
-
-        <div class="top-bar">
-            <div class="top-bar-left">
-                <ul class="menu">
-                    <li class="menu-text"><a href="#!">Site Title</a></li>
-                    <li><a href="#!/view1">One</a></li>
-                    <li><a href="#!/view2">Two</a></li>
-                    <!--<li><a href="#">Three</a></li>-->
-                </ul>
-            </div>
-            <div class="top-bar-right">
-                <ul class="menu">
-                    <li><button type="button" class="button" ng-click="login()">Login</button></li>
-                    <li><button type="button" class="button" ng-click="logout()">Logout</button></li>
-                </ul>
-            </div>
-        </div>
-
-
-
-        <div ng-view></div>
 
         <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
@@ -63,6 +36,27 @@
 
         <!-- Foundation -->
         <script src="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.js"></script>
+
+
+    </head>
+    <body ng-app="myApp" ng-controller="IndexCtrl">
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <ul class="menu">
+                    <li class="menu-text"><a href="#!">Ascend UIUC</a></li>
+                    <li><a href="#!/view1">Member Information</a></li>
+                    <li><a href="#!/view2">Event Information</a></li>
+                </ul>
+            </div>
+            <div class="top-bar-right">
+                <ul class="menu">
+                    <li><button type="button" class="button" ng-if="displayLogin" ng-click="login()">Login</button></li>
+                    <li><button type="button" class="button" ng-if="!displayLogin" ng-click="logout()">Logout</button></li>
+                </ul>
+            </div>
+        </div>
+
+        <div ng-view></div>
 
         <script src="app.js"></script>
         <script src="index.js"></script>

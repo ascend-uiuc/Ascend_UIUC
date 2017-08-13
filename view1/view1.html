@@ -1,8 +1,21 @@
-<!--<button ng-click="login()">Login</button>-->
-<!--<button ng-click="logout()">Logout</button>-->
 <div class="row">
-    <h1 class="small-3 columns">Hi, {{user.displayName}}!</h1>
-    <h1 class="small-3 columns">Hi, {{user.displayName}}!</h1>
-    <h1 class="small-3 columns">Hi, {{user.displayName}}!</h1>
-    <h1 class="small-3 columns">Hi, {{user.displayName}}!</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Attended</th>
+                <th>Excused</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{userDB.username}}</td>
+                <td>{{userDB.email}}</td>
+                <td>{{userDB.attended.length}}</td>
+                <td>{{userDB.excused.length}}</td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>

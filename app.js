@@ -12,10 +12,6 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   $locationProvider.hashPrefix('!');
 
   $routeProvider
-      // .when('/', {
-      //     // templateUrl: 'index.html',
-      //     // controller: 'IndexCtrl'
-      // })
       .when('/view1', {
           templateUrl: 'view1/view1.html',
           controller: 'View1Ctrl'
