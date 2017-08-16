@@ -2,19 +2,23 @@
 
 angular.module('myApp.index', ['ngRoute'])
 
-    .controller('IndexCtrl', ['$scope', function($scope) {
+    .controller('IndexCtrl', ['$scope', '$timeout', '$window', function($scope, $timeout, $window) {
     var provider = new firebase.auth.GoogleAuthProvider();
 
     $scope.displayLogin = true;
+    $scope.creating = false;
+    $scope.departments = ['External', 'Internal', 'EDP', 'Marketing',
+        'Social', 'Treasury', 'Technology', 'Mentorship'];
 
     /* Observer function */
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             console.log(user);
 
-            $scope.user = user;
-            $scope.displayLogin = false;
-            $scope.$apply();
+            $timeout(function() {
+                $scope.user = user;
+                $scope.displayLogin = false;
+            }, 0);
 
             var usersRef = firebase.database().ref('users');
 
@@ -25,16 +29,18 @@ angular.module('myApp.index', ['ngRoute'])
                 }
 
                 $scope.getUser(user.uid);
-                $scope.$apply();
+
             });
 
         } else {
             console.log("No user logged in.");
 
-            $scope.displayLogin = true;
-            $scope.user = null;
-            $scope.userDB = null;
-            $scope.$apply();
+            $timeout(function() {
+                $scope.displayLogin = true;
+                $scope.user = null;
+                $scope.userDB = null;
+                $window.location.href = '#!'
+            }, 0);
         }
     });
 
@@ -51,10 +57,22 @@ angular.module('myApp.index', ['ngRoute'])
     /* Display User data and transfer to Angular */
     $scope.getUser = function(userId) {
         firebase.database().ref('users/' + userId).once("value", function(snapshot) {
-            console.log(snapshot.val());
+            $timeout(function() {
+                $scope.userDB = snapshot.val();
+                // $scope.getEvents();
 
-            $scope.userDB = snapshot.val();
-            $scope.$apply();
+                firebase.database().ref('events').on('value', function(snapshot) {
+                    console.log("received events");
+                    $timeout(function() {
+                        $scope.events = snapshot.val();
+                        console.log($scope.events);
+                    }, 0);
+
+                    // $scope.$apply();
+                });
+            }, 0);//
+            // .then($scope.getEvents);
+
         }, function (error) {
             console.log("Error: " + error.code);
             console.log(error);
@@ -91,14 +109,52 @@ angular.module('myApp.index', ['ngRoute'])
     $scope.logout = function() {
         firebase.auth().signOut().then(function() {
             // Sign-out successful.
-            console.log("successful sign out!");
+            console.log("User sign out!");
 
         }).catch(function(error) {
             // An error happened.
-            console.log("error on sign out?");
+            console.log("Error on sign out.");
 
         });
     };
 
+    /***** EVENT PAGE FUNCTIONS *****/
+    $scope.createEvent = function(name, dept) {
+        if (!name || !dept) {
+            alert("Error: Must provide event name and department.");
+            return;
+        }
+
+        if ($scope.userDB.admin) {
+            firebase.database().ref('events').push({
+                name: name,
+                dept: dept,
+                date: firebase.database.ServerValue.TIMESTAMP,
+                attendees: ['NULL'],
+                excused: ['NULL']
+            });
+        }
+
+    };
+
+    /* Set up listener but also allow manual trigger through function invocation */
+    // $scope.getEvents = function() {
+    //     firebase.database().ref('events').on('value', function(snapshot) {
+    //         console.log("received events");
+    //         $timeout(function() {
+    //             $scope.events = snapshot.val();
+    //             console.log($scope.events);
+    //         }, 0);
+    //
+    //         // $scope.$apply();
+    //     });
+    //
+    //
+    // };
+
+    /* Boolean flipper */
+    $scope.flipState = function() {
+        $scope.creating = !$scope.creating;
+    }
 
 }]);
