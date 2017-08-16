@@ -1,5 +1,31 @@
-<p>This is the partial for view 2.</p>
-<p>
-  Showing of 'interpolate' filter:
-  {{ 'Current version is v%VERSION%.' | interpolate }}
-</p>
+<div class="row">
+    <table class="hover">
+        <thead>
+        <tr>
+            <th>Event Name</th>
+            <th>Department</th>
+            <th>Attendees</th>
+            <th>Excused</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="e in events">
+                <td>{{e.name}}</td>
+                <td>{{e.dept}}</td>
+                <td>{{e.attendees.length}}</td>
+                <td>{{e.excused.length}}</td>
+                <td>{{e.date | date:'medium'}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="button" ng-click="flipState()">Add new event</button>
+    <div ng-if="creating">
+        <input type="text" ng-model="name" placeholder="Event Name">
+        <select ng-model="dept">
+            <option ng-repeat="d in departments">{{d}}</option>
+        </select>
+        <button class="button" ng-click="createEvent(name, dept); flipState()">Create</button>
+        <button class="button" style="background-color: red" ng-click="flipState()">Cancel</button>
+    </div>
+</div>

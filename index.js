@@ -7,7 +7,6 @@ angular.module('myApp.index', ['ngRoute'])
 
     $scope.displayLogin = true;
 
-
     /* Observer function */
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -20,9 +19,7 @@ angular.module('myApp.index', ['ngRoute'])
             var usersRef = firebase.database().ref('users');
 
             usersRef.child(user.uid).once('value', function(snapshot) {
-                var exists = (snapshot.val() !== null);
-
-                if (!exists) {
+                if (!snapshot.exists()) {
                     console.log("User does not exist. Creating User...");
                     $scope.addUser(user.uid, user.displayName, user.email);
                 }
@@ -64,6 +61,7 @@ angular.module('myApp.index', ['ngRoute'])
         });
     };
 
+    /* Front-end functions */
     $scope.login = function() {
         firebase.auth().signInWithPopup(provider).then(function(result) {
             // This gives you a Google Access Token. You can use it to access the Google API.
@@ -101,4 +99,6 @@ angular.module('myApp.index', ['ngRoute'])
 
         });
     };
+
+
 }]);

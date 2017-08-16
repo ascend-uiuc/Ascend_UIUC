@@ -28,7 +28,9 @@
         </script>
 
 
-        <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
 
         <!-- AngularJS -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
@@ -45,13 +47,14 @@
                 <ul class="menu">
                     <li class="menu-text"><a href="#!">Ascend UIUC</a></li>
                     <li><a href="#!/view1">Member Information</a></li>
-                    <li><a href="#!/view2">Event Information</a></li>
+                    <li ng-if="userDB.admin"><a href="#!/view2">Event Information</a></li>
+                    <li>{{userDB.admin}}</li>
                 </ul>
             </div>
             <div class="top-bar-right">
                 <ul class="menu">
-                    <li><button type="button" class="button" ng-if="displayLogin" ng-click="login()">Login</button></li>
-                    <li><button type="button" class="button" ng-if="!displayLogin" ng-click="logout()">Logout</button></li>
+                    <li><button class="button" ng-if="displayLogin" ng-click="login()">Login with Google Account</button></li>
+                    <li><button class="button" ng-if="!displayLogin" ng-click="logout()">Logout</button></li>
                 </ul>
             </div>
         </div>
