@@ -10,7 +10,7 @@
         </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="e in events">
+            <tr ng-repeat="e in events" ng-click="indexFunc()">
                 <td>{{e.name}}</td>
                 <td>{{e.dept}}</td>
                 <td>{{e.attendees.length}}</td>
