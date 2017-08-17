@@ -59,7 +59,6 @@ angular.module('myApp.index', ['ngRoute'])
         firebase.database().ref('users/' + userId).once("value", function(snapshot) {
             $timeout(function() {
                 $scope.userDB = snapshot.val();
-                // $scope.getEvents();
 
                 firebase.database().ref('events').on('value', function(snapshot) {
                     console.log("received events");
@@ -67,12 +66,8 @@ angular.module('myApp.index', ['ngRoute'])
                         $scope.events = snapshot.val();
                         console.log($scope.events);
                     }, 0);
-
-                    // $scope.$apply();
                 });
-            }, 0);//
-            // .then($scope.getEvents);
-
+            }, 0);
         }, function (error) {
             console.log("Error: " + error.code);
             console.log(error);
@@ -137,24 +132,17 @@ angular.module('myApp.index', ['ngRoute'])
 
     };
 
-    /* Set up listener but also allow manual trigger through function invocation */
-    // $scope.getEvents = function() {
-    //     firebase.database().ref('events').on('value', function(snapshot) {
-    //         console.log("received events");
-    //         $timeout(function() {
-    //             $scope.events = snapshot.val();
-    //             console.log($scope.events);
-    //         }, 0);
-    //
-    //         // $scope.$apply();
-    //     });
-    //
-    //
-    // };
-
     /* Boolean flipper */
     $scope.flipState = function() {
         $scope.creating = !$scope.creating;
-    }
+    };
 
+    // $scope.openEvent = function(event) {
+    //     $window.location.href = '#!/view';
+    //     $scope.eventDetails(event);
+    // };
+    //
+    // $scope.indexFunc = function() {
+    //     $scope.view3Func();
+    // }
 }]);
